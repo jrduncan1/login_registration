@@ -41,12 +41,13 @@ public class UserService {
 		
 		Optional<User> potentialUser = userRepo.findByEmail(newLogin.getEmail());
 		if(!potentialUser.isPresent()) {
-			result.rejectValue("email", "Unique", "Email and/or password are invalid.");
+			result.rejectValue("email", "Unique", "Email not found.");
+			return null;
 		}
 		
 		User user = potentialUser.get();
 		if(!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
-			result.rejectValue("password", "Matches", "Email and/or password are invalid.");
+			result.rejectValue("password", "Matches", "Invalid password.");
 		}
 		
 		if(result.hasErrors()) {
@@ -54,6 +55,18 @@ public class UserService {
 		} else {
 			return user;
 		}
+	}
+	
+	public User retrieveOneUser(Long id) {
+		
+		Optional<User> user = userRepo.findById(id);
+		
+		if(user.isPresent()) {
+			return user.get();
+		} else {
+			return null;
+		}
+		
 	}
 
 }

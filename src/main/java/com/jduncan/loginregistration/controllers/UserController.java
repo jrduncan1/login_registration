@@ -33,6 +33,23 @@ public class UserController {
 		return "index.jsp";
 	}
 	
+	// dashboard page for logged in or registered users
+	@GetMapping("/dashboard")
+	public String dashboard(Model model, HttpSession session) {
+		if(session.getAttribute("uuid") == null) {
+			return "redirect:/";
+		}
+		model.addAttribute("loggedUser", userService.retrieveOneUser((Long) session.getAttribute("uuid")));
+		return "dashboard.jsp";
+	}
+	
+	// returns user to login page after logging out and clearing session
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	
 	// **** ACTION ROUTES ****
 	// processes registration of user
@@ -46,4 +63,17 @@ public class UserController {
 		session.setAttribute("uuid", newUser.getId());
 		return "redirect:/dashboard";
 	}
+	
+	// processes login of user
+	@PostMapping("/login")
+	public String login(@Valid @ModelAttribute("newLogin") LoginUser newLogin, BindingResult result, Model model, HttpSession session) {
+		User user = userService.login(newLogin, result);
+		if(result.hasErrors()) {
+			model.addAttribute("newUser", new User());
+			return "index.jsp";
+		}
+		session.setAttribute("uuid", user.getId());
+		return "redirect:/dashboard";
+	}
+	
 }
