@@ -73,6 +73,13 @@
 	        <artifactId>jbcrypt</artifactId>
 	        <version>0.4</version>
 	    </dependency>
+
+		<!-- hibernate validation -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+	    
 	
 	    <!-- Bootstrap Dependencies -->
 	    <dependency>
