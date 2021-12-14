@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
-<title>Login & Registration</title>
+<title>Login and Registration</title>
 </head>
 <body>
     <div class="container mt-5 col9">
